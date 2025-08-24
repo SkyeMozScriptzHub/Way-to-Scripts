@@ -27,16 +27,38 @@ body,html{margin:0;padding:0;height:100%;background:#000;overflow:hidden;color:#
   <button class="button" id="returnBtn">Return</button>
 </div>
 <script>
-const time=Math.floor(Math.random()*14+3)*1000;
-const p=document.querySelector('.progress');
+// Random loading time 3-16s
+const loadingTime=Math.floor(Math.random()*14+3)*1000;
+const progress=document.querySelector('.progress');
 const text=document.querySelector('.text');
 let start=null;
-function animate(t){if(!start)start=t;let e=(t-start)/time;p.style.width=Math.min(e,1)*100+'%';if(e<1)requestAnimationFrame(animate);else window.location.href="https://hyper-denzeno-moz-collab.vercel.app/";}
+
+// Animate progress bar and redirect to Scripts page
+function animate(t){
+  if(!start) start=t;
+  let progressRatio=(t-start)/loadingTime;
+  progress.style.width=Math.min(progressRatio,1)*100+'%';
+  if(progressRatio<1) requestAnimationFrame(animate);
+  else window.location.href="https://rscripts.net/@zenomozhub"; // Scripts page
+}
 requestAnimationFrame(animate);
-for(let i=0;i<50;i++){let d=document.createElement('div');d.className='particle';d.style.left=Math.random()*innerWidth+'px';d.style.top=Math.random()*innerHeight+'px';let s=Math.random()*5+2;d.style.width=d.style.height=s+'px';d.style.animationDuration=(Math.random()*2+1)+'s';document.body.appendChild(d);}
+
+// Particles
+for(let i=0;i<50;i++){
+  let p=document.createElement('div');
+  p.className='particle';
+  p.style.left=Math.random()*innerWidth+'px';
+  p.style.top=Math.random()*innerHeight+'px';
+  let s=Math.random()*5+2;
+  p.style.width=p.style.height=s+'px';
+  p.style.animationDuration=(Math.random()*2+1)+'s';
+  document.body.appendChild(p);
+}
+
+// Return button redirects to Main/Home page
 document.getElementById('returnBtn').addEventListener('click',()=>{
   text.textContent="Returning...";
-  window.location.href="https://hyper-denzeno-moz-collab.vercel.app/";
+  window.location.href="https://hyper-denzeno-moz-collab.vercel.app/"; // Main page link
 });
 </script>
 </body>
