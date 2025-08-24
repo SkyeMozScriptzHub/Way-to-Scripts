@@ -3,139 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Loading Screen</title>
+<title>Loading...</title>
 <style>
-  /* Fullscreen black background */
-  body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background-color: #000;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-    color: #fff;
-  }
-
-  /* Center container */
-  .loader-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    z-index: 10;
-  }
-
-  /* Spinning logo */
-  .logo {
-    width: 100px;
-    height: 100px;
-    background: url('logo.png') no-repeat center/contain;
-    animation: spin 2s linear infinite;
-    margin-bottom: 20px;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  /* Loading bar container */
-  .loading-bar {
-    width: 300px;
-    height: 15px;
-    background-color: rgba(255,255,255,0.2);
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 0 auto 15px auto;
-  }
-
-  /* Loading progress */
-  .progress {
-    height: 100%;
-    width: 0;
-    background: #0f0;
-    border-radius: 10px;
-    transition: width 0.3s ease;
-  }
-
-  /* Loading text */
-  .loading-text {
-    font-size: 18px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: slideUp 1s forwards;
-    animation-delay: 0.2s;
-  }
-
-  @keyframes slideUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Particle styles */
-  .particle {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background: #fff;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: particleMove 2s linear infinite;
-  }
-
-  @keyframes particleMove {
-    0% { transform: translateY(0) translateX(0); opacity: 0.8; }
-    100% { transform: translateY(-200px) translateX(100px); opacity: 0; }
-  }
-
+body,html{margin:0;padding:0;height:100%;background:#000;overflow:hidden;color:#fff;font-family:sans-serif;}
+.loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:10;}
+.logo{width:100px;height:100px;background:url('logo.png') no-repeat center/contain;animation:spin 2s linear infinite;margin-bottom:20px;}
+@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+.bar{width:300px;height:15px;background:rgba(255,255,255,0.2);border-radius:10px;margin:0 auto 15px;overflow:hidden;}
+.progress{height:100%;width:0;background:#fff;border-radius:10px;transition:width 0.3s ease;}
+.text{font-size:18px;opacity:0;transform:translateY(20px);animation:slideUp 1s forwards;animation-delay:0.2s;margin-bottom:15px;}
+@keyframes slideUp{to{opacity:1;transform:translateY(0);}}
+.particle{position:absolute;width:5px;height:5px;background:#fff;border-radius:50%;opacity:0.8;animation:particleMove 2s linear infinite;}
+@keyframes particleMove{0%{transform:translateY(0) translateX(0);opacity:0.8;}100%{transform:translateY(-200px) translateX(100px);opacity:0;}}
+.button{padding:10px 20px;background:red;color:#fff;border:none;border-radius:5px;font-size:16px;cursor:pointer;transition:0.2s;}
+.button:hover{opacity:0.8;}
 </style>
 </head>
 <body>
-
-<div class="loader-container">
+<div class="loader">
   <div class="logo"></div>
-  <div class="loading-bar"><div class="progress"></div></div>
-  <div class="loading-text">Travelling to the Scripts, Please stay put and hold!</div>
+  <div class="bar"><div class="progress"></div></div>
+  <div class="text">Travelling to the Scripts, Please stay put and hold!</div>
+  <button class="button" id="returnBtn">Return</button>
 </div>
-
 <script>
-  // Random loading time between 3 and 16 seconds
-  const loadingTime = Math.floor(Math.random() * 14 + 3) * 1000;
-
-  const progressBar = document.querySelector('.progress');
-
-  // Animate loading bar
-  let startTime = null;
-  function animateLoading(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
-    const progress = Math.min(elapsed / loadingTime, 1);
-    progressBar.style.width = progress * 100 + '%';
-    if (progress < 1) {
-      requestAnimationFrame(animateLoading);
-    } else {
-      // Redirect when loading finishes
-      window.location.href = "https://hyper-denzeno-moz-collab.vercel.app/"; // your target site
-    }
-  }
-
-  requestAnimationFrame(animateLoading);
-
-  // Create particles
-  const particleCount = 50;
-  for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.style.left = Math.random() * window.innerWidth + 'px';
-    particle.style.top = Math.random() * window.innerHeight + 'px';
-    particle.style.width = particle.style.height = Math.random() * 5 + 2 + 'px';
-    particle.style.animationDuration = (Math.random() * 2 + 1) + 's';
-    document.body.appendChild(particle);
-  }
+const time=Math.floor(Math.random()*14+3)*1000;
+const p=document.querySelector('.progress');
+const text=document.querySelector('.text');
+let start=null;
+function animate(t){if(!start)start=t;let e=(t-start)/time;p.style.width=Math.min(e,1)*100+'%';if(e<1)requestAnimationFrame(animate);else window.location.href="https://hyper-denzeno-moz-collab.vercel.app/";}
+requestAnimationFrame(animate);
+for(let i=0;i<50;i++){let d=document.createElement('div');d.className='particle';d.style.left=Math.random()*innerWidth+'px';d.style.top=Math.random()*innerHeight+'px';let s=Math.random()*5+2;d.style.width=d.style.height=s+'px';d.style.animationDuration=(Math.random()*2+1)+'s';document.body.appendChild(d);}
+document.getElementById('returnBtn').addEventListener('click',()=>{
+  text.textContent="Returning...";
+  window.location.href="https://hyper-denzeno-moz-collab.vercel.app/";
+});
 </script>
-
 </body>
 </html>
